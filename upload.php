@@ -67,17 +67,20 @@
     <link rel="stylesheet" href="./bootstrap5/css/bootstrap.min.css">
     <link rel="stylesheet" href="./lineawesome/lineawesome/css/line-awesome.css">
     <style>
-      #myTable{
-        width: 70%;
+      td{
+        font-size:12px;
+      }
+      th{
+        font-size: 10px;
       }
       footer{
-       
-        padding: 10px;
+       /* width: 100%; */
+        /* padding: 10px; */
       }
     </style>
 </head>
 <body class="" style="background-color: #f1f1f1;">
-    <div class="container">
+    <!-- <div class="container"> -->
         
         <form action="upload.php" method="post" enctype="multipart/form-data">
             <div class="form-group">
@@ -100,46 +103,77 @@
 </form>
 </div>
 <hr>
-<table id="myTable" class="display table table-striped table-hover table-responsive">
-    <thead>
-        <tr>
-            <th>SN</th>
-            <th>NAME</th>
-            <th>REG REG NUMBER</th>
-            <th>ENGLISH</th>
-            <th>MATHEMATICS</th>
-            <th>BIOLOGY</th>
-            <th>CHEMISTRY</th>
-            <th>BASIC SCIENCE</th>
-            <th>CIVIC EDUCATION</th>
-            <th>BASIC TECHNOLOGY</th>
-            <th>PHYSICS</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php
-            $sql = "SELECT * FROM result1";
-            $result = $conn->query($sql);
-            $result->num_rows>0;
-            while($data = $result->fetch_assoc()):;
 
-        ?>
-        <tr>
-            <td><?=$data['SN']; ?></td>
-            <td><?=$data['NAME']; ?></td>
-            <td><?=$data['REG_NUMBER']; ?></td>
-            <td><?=$data['ENGLISH']; ?></td>
-            <td><?=$data['MATHEMATICS']; ?></td>
-            <td><?=$data['BIOLOGY']; ?></td>
-            <td><?=$data['CHEMISTRY']; ?></td>
-            <td><?=$data['BASIC_SCIENCE']; ?></td>
-            <td><?=$data['CIVIC_EDUCATION']; ?></td>
-            <td><?=$data['BASIC_TECHNOLOGY']; ?></td>
-            <td><?=$data['PHYSICS']; ?></td>
-        </tr>
-        <?php endwhile ?>
-    </tbody>
-</table>
+<!-- <div class="card"> -->
+    <!-- <div class=" card-body"> -->
+        <table id="myTable" class="display table table-striped table-hover table-border ">
+            <thead>
+                <tr>
+                    <th>SN</th>
+                    <th>NAME</th>
+                    <th>REG REG NUMBER</th>
+                    <th>ENGLISH</th>
+                    <th>MATHEMATICS</th>
+                    <th>BIOLOGY</th>
+                    <th>CHEMISTRY</th>
+                    <th>BASIC SCIENCE</th>
+                    <th>CIVIC EDUCATION</th>
+                    <th>BASIC TECHNOLOGY</th>
+                    <th>PHYSICS</th>
+                    <th>TOTAL SCORE</th>
+                    <th>AVERAGE SCORE</th>
+                    <th>REMARK</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                    $sql = "SELECT * FROM result1";
+                    $result = $conn->query($sql);
+                    $result->num_rows>0;
+                    while($data = $result->fetch_assoc()):;
+
+                        //all subject total
+                        $sum = $data['ENGLISH']+
+                        $data['MATHEMATICS']+
+                        $data['BIOLOGY']+
+                        $data['CHEMISTRY']+
+                        $data['BASIC_SCIENCE']+
+                        $data['CIVIC_EDUCATION']+
+                        $data['BASIC_TECHNOLOGY']+
+                        $data['PHYSICS'];
+
+                    //average    
+                   $avg = $sum/8;
+
+                   //Remark
+                   if ($avg >=50) {
+                       $pass = "PASS";
+                    }else{
+                       $pass = "FAIL";
+                   }
+
+
+                ?>
+                <tr>
+                    <td><?=$data['SN']; ?></td>
+                    <td><?=$data['NAME']; ?></td>
+                    <td><?=$data['REG_NUMBER']; ?></td>
+                    <td><?=$data['ENGLISH']; ?></td>
+                    <td><?=$data['MATHEMATICS']; ?></td>
+                    <td><?=$data['BIOLOGY']; ?></td>
+                    <td><?=$data['CHEMISTRY']; ?></td>
+                    <td><?=$data['BASIC_SCIENCE']; ?></td>
+                    <td><?=$data['CIVIC_EDUCATION']; ?></td>
+                    <td><?=$data['BASIC_TECHNOLOGY']; ?></td>
+                    <td><?=$data['PHYSICS']; ?></td>
+                    <td><?=$sum; ?></td>
+                    <td><?=$avg; ?></td>
+                    <td><?=$pass; ?></td>
+                </tr>
+                <?php endwhile ?>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <footer class="p-3 text-center text-primary alert alert-primary">
